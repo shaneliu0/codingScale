@@ -21,7 +21,7 @@ def createPath():
     return file_path
     
 def unzip(file_path):
-    domain = "https://github.com"#website domain
+    domain = "https://github.com" #website domain
     theurl = input("Enter the url for where all the zip files are uploaded: ")#testing url: https://github.com/Whitetiger094/BetaAmazonShopping
     page = requests.get(theurl)
 
@@ -45,7 +45,7 @@ def renameFiles(file_path, projDict):#projects is a dictionary
     x=0
     for f in os.listdir(file_path):
         os.rename(f, projects[x].get("name"))
-        x++
+        x = x+1
 
                 
 #delete unzipped files and zipfiles when done
