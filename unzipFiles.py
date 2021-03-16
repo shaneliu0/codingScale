@@ -4,14 +4,20 @@ import os, shutil, subprocess
 from io import BytesIO
 from urllib.request import urlopen
 from zipfile import ZipFile
-
+#user has to enter google login
 #creates a folder to unzip all files
-def createPath(file_path):
+names = []
+
+def getNames():
+    return names
+
+
+def createPath(file_path, folder):
     try:
-        os.mkdir(file_path+r"\unzipped")
+        os.mkdir(file_path+"\\"+folder)
     except OSError:
         print("folder already exists")
-    #return file_path
+    return file_path + '\\' + folder
     
 def unzip(file_path, theurl):
     domain = "https://github.com"#website domain
@@ -24,19 +30,23 @@ def unzip(file_path, theurl):
 
     for link in soup.find_all('a'):
         url =link.get('href')
+        
         if ".zip" in url:
-            #file_name = url[url.rfind("/")+1:]
+            file_name = url[url.rfind("/")+1:]
+            names.append(file_name)
+            fp = createPath(file_path+r"\unzipped", file_name)
             zipurl = domain + url
+            print(zipurl)
             with urlopen(zipurl) as zipresp:
                 with ZipFile(BytesIO(zipresp.read())) as zfile:
-                    zfile.extractall(file_path+r"\unzipped")
-    print("files have been downloaded")
-    
+                    zfile.extractall(fp)
+    print("files have been downloaded") #https://github.com/Whitetiger094/BetaAmazonShopping/archive/main.zip
+
 def runFiles(file):
     if file.endswith('.py'):
-        p = subprocess.Popen(['python', r"C:\Users\trish\Desktop\advsd\Python\OOP"+file], stdout = subprocess.PIPE)
-        return p.stdout  
- 
+        pp = subprocess.Popen('python '+f, shell = True, text=True, cwd = r"C:\Users\trish\Desktop\advsd\CodingScale\unzipped", stdin = PIPE)#, stdout = PIPE)
+        x = pp.communicate("5X^2 +6X^1+2X^0")  
+    print(pp.stdout)
 #rename files to student name
 def renameFiles(file_path, projDict):
     projects = projDict.get("projects")
