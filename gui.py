@@ -6,20 +6,22 @@ def delet():
 
 def run():
     print("running")
-    createPath(fp.get())
+    createPath(fp.get(), r"\unzipped")
     unzip(fp.get(), url.get())
-    directory = fp.get()+r"\unzipped"
+    directory = fp.get() + r"\unzipped"
     x=3
-    for f in os.listdir(directory):
-        print(f)
-        output = getOutput(directory, f)
-        print(output)
-        print(x)
-        out = tk.Label(frm, text = output)
-        filename = tk.Label(frm, text = f)
-        filename.grid(row = x, column = 1, padx =5, pady =5)
-        out.grid(row = x, column = 2, padx =5, pady=5)
-        x+=1
+    #input = popup()#call run files and return input each time, so maybe do like if input exists do runFile, else do whatever is there now
+    for n in getNames():
+        for f in os.listdir(directory+"\\"+n):
+            print(f)
+            output = getOutput(directory+f, f)
+            print(output)
+            print(x)
+            out = tk.Label(frm, text = output, bg ="black", fg="white" )
+            filename = tk.Label(frm, text = f, bg ="black", fg="white" )
+            filename.grid(row = x, column = 1, padx =5, pady =5)
+            out.grid(row = x, column = 2, padx =5, pady=5)
+            x+=1
     bdelete.grid(row = x, column = 2, padx=5, pady=5)
     
   
@@ -49,5 +51,4 @@ resultsfrm = tk.Frame(window)
 frm.grid(row=1, column=0)
 
 
-window.mainloop()
-
+#window.mainloop()
