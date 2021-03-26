@@ -4,8 +4,8 @@ import os, shutil, subprocess
 from io import BytesIO
 from urllib.request import urlopen
 from zipfile import ZipFile
-#user has to enter google login
-#creates a folder to unzip all files
+import pexpect
+
 names = []
 
 def getNames():
@@ -45,7 +45,8 @@ def unzip(file_path, theurl):
 def runFiles(file):
     if file.endswith('.py'):
         pp = subprocess.Popen('python '+f, shell = True, text=True, cwd = r"C:\Users\trish\Desktop\advsd\CodingScale\unzipped", stdin = PIPE)#, stdout = PIPE)
-        x = pp.communicate("5X^2 +6X^1+2X^0")  
+        x = pp.communicate("5X^2 +6X^1+2X^0")
+        import index
     print(pp.stdout)
 #rename files to student name
 def renameFiles(file_path, projDict):
@@ -56,17 +57,29 @@ def renameFiles(file_path, projDict):
         x+=1
 
 
-def getOutput(directory, f):
+def getOutput(directory, f, inputList):
     if f.endswith(".py"):
+        child = pexpect.spawn('python3 '+file)
+        child.setwinsize(100,100)
+    
+        childOutput = ""
+    
+        for x in inputList:
+            child.expect(" ")
+            child.sendLine(x)
+            childOutput += child.before.decode('utf-8').splitlines()+"\n"    
+        
+        return childOutput
+    
+        """
         p = subprocess.run('python '+f, shell = True, capture_output = True, text=True, cwd = directory)
         return(p.stdout)
+        """
+    
         
     
 #delete unzipped files and zipfiles when done
 def delete(file_path):
     shutil.rmtree(file_path)
-
-
-
 
         
