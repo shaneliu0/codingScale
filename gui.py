@@ -1,20 +1,27 @@
 import tkinter as tk
 from unzipFiles import *
+#https://storage.googleapis.com/codingscale-aa52f.appspot.com/Lab%205.4%20-%20Vending%20Machines%20(fixed).zip
+inputList = []
 
 def delet():
     delete(fp.get()+r"\unzipped")
 
 def run():
+    
+    for x in range(int(inputs.get())):
+        entry = frm.grid_slaves(4+x,1).get()
+        inputList.append(entry) 
+    
+    
     print("running")
     createPath(fp.get(), r"\unzipped")
     unzip(fp.get(), url.get())
     directory = fp.get() + r"\unzipped"
-    x=3
-    #input = popup()#call run files and return input each time, so maybe do like if input exists do runFile, else do whatever is there now
+    x=6+int(inputs.get())
     for n in getNames():
         for f in os.listdir(directory+"\\"+n):
             print(f)
-            output = getOutput(directory+f, f)
+            output = getOutput(directory+f, f, inputList)
             print(output)
             print(x)
             out = tk.Label(frm, text = output, bg ="black", fg="white" )
@@ -23,6 +30,20 @@ def run():
             out.grid(row = x, column = 2, padx =5, pady=5)
             x+=1
     bdelete.grid(row = x, column = 2, padx=5, pady=5)
+    
+    
+def nextButtons():
+    if inputs.get() != '0':
+        l4 = tk.Label(frm, text = "Pre-enter the inputs in the text fields below")
+        l4.grid(row = 3, column=0, padx=5, pady=5)
+
+    for x in range(int(inputs.get())):
+        inpLabel = tk.Label(frm, text = "input"+str(x+1))
+        inpLabel.grid(row = 3+x+1, column =0, padx=5, pady=5)
+        inpEntry = tk.Entry(frm, width = 30)
+        inpEntry.grid(row=3+x+1, column =1, padx=5, pady=5)
+    bdone = tk.Button(frm, text = "Done", command = run)
+    bdone.grid(row=(5+int(inputs.get())), column=1, padx=5, pady=5) 
     
   
 window = tk.Tk()
@@ -40,8 +61,16 @@ l2.grid(row=1,column=0, padx=5, pady=5)
 url = tk.Entry(frm, width=30)
 url.grid(row=1,column=1, padx=5, pady=5)
 
-bdone = tk.Button(frm, text = "Done", command = run)
-bdone.grid(row=2, column=1, padx=5, pady=5)
+
+l3 = tk.Label(frm, text = "Enter the number of inputs you'd like to send: ")
+l3.grid(row=2, column=0, padx=5, pady=5)
+inputs = tk.Entry(frm)
+inputs.grid(row=2, column=1, padx=5, pady=5)
+
+bok = tk.Button(frm, text = "Ok", command = nextButtons)
+bok.grid(row=2, column=2, padx=5, pady=5)
+
+
 
 bdelete = tk.Button(frm, text = "Delete files", command = delet)
 
@@ -52,3 +81,4 @@ frm.grid(row=1, column=0)
 
 
 #window.mainloop()
+
