@@ -5,10 +5,12 @@ from io import BytesIO
 from urllib.request import urlopen
 from zipfile import ZipFile
 import pexpect
-
+#user has to enter google login
+#creates a folder to unzip all files
 names = []
 
 def getNames():
+    #names.append("test1")
     return names
 
 
@@ -42,12 +44,18 @@ def unzip(file_path, theurl):
                     zfile.extractall(fp)
     print("files have been downloaded") #https://github.com/Whitetiger094/BetaAmazonShopping/archive/main.zip
 
-def runFiles(file):
-    if file.endswith('.py'):
-        pp = subprocess.Popen('python '+f, shell = True, text=True, cwd = r"C:\Users\trish\Desktop\advsd\CodingScale\unzipped", stdin = PIPE)#, stdout = PIPE)
-        x = pp.communicate("5X^2 +6X^1+2X^0")
-        import index
-    print(pp.stdout)
+def runFiles(directory, inpu):
+    for folder in os.listdir(directory):
+        for f in os.listdir(directory+"\\"+folder):
+            if f.endswith(".py"):
+                pp = subprocess.Popen('python '+f, shell = True, capture_output=True, text=True, cwd = directory+"\\"+folder, stdin = subprocess.PIPE)#, stdout = PIPE)
+                x = pp.communicate(inpu[0])
+                """
+                p = subprocess.run('python '+f, shell = True, capture_output = True, text=True, cwd = directory)
+                return(p.stdout)
+                """
+        #import index
+    return pp.stdout
 #rename files to student name
 def renameFiles(file_path, projDict):
     projects = projDict.get("projects")
@@ -57,24 +65,26 @@ def renameFiles(file_path, projDict):
         x+=1
 
 
-def getOutput(directory, f, inputList):
-    if f.endswith(".py"):
-        child = pexpect.spawn('python3 '+file)
-        child.setwinsize(100,100)
+def getOutput(directory, inputList):
+    childOutput = ""
+    for folder in os.listdir(directory):
+        for f in os.listdir(directory+"\\"+folder):
+            if f.endswith(".py"):
+                print(f)
+                child = pexpect.spawn('python3 '+file)
+                child.setwinsize(100,100)
     
-        childOutput = ""
+                
     
-        for x in inputList:
-            child.expect(" ")
-            child.sendLine(x)
-            childOutput += child.before.decode('utf-8').splitlines()+"\n"    
+                for x in inputList:
+                    child.expect(" ")
+                    child.sendLine(x)
+                    childOutput += child.before.decode('utf-8').splitlines()+"\n"    
         
-        return childOutput
+            if childOutput != "":
+                return childOutput
     
-        """
-        p = subprocess.run('python '+f, shell = True, capture_output = True, text=True, cwd = directory)
-        return(p.stdout)
-        """
+        
     
         
     
