@@ -9,7 +9,9 @@ def delet():
 def run():
     
     for x in range(int(inputs.get())):
-        entry = frm.grid_slaves(4+x,1).get()
+        print((frm.grid_slaves(4+x,1))[0])
+        entry = frm.grid_slaves(4+x,1)[0].get()
+        print(entry)
         inputList.append(entry) 
     
     
@@ -18,10 +20,10 @@ def run():
     unzip(fp.get(), url.get())
     directory = fp.get() + r"\unzipped"
     x=6+int(inputs.get())
-    for n in getNames():
-        for f in os.listdir(directory+"\\"+n):
+    #for n in getNames():
+    for f in os.listdir(directory):
             print(f)
-            output = getOutput(directory+f, f, inputList)
+            output = getOutput(directory+"\\"+f, inputList)
             print(output)
             print(x)
             out = tk.Label(frm, text = output, bg ="black", fg="white" )
