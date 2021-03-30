@@ -23,7 +23,10 @@ def run():
     #for n in getNames():
     for f in os.listdir(directory):
             print(f)
-            output = getOutput(directory+"\\"+f, inputList)
+            if int(inputs.get())>1:
+                output = getOutput(directory+"\\"+f, inputList)
+            else:
+                output = runFiles( directory+"\\"+f, inputList)
             print(output)
             print(x)
             out = tk.Label(frm, text = output, bg ="black", fg="white" )
