@@ -31,6 +31,9 @@ def run():
             filename.grid(row = x, column = 1, padx =5, pady =5)
             out.grid(row = x, column = 2, padx =5, pady=5)
             x+=1
+            tfile = open("output.txt", "a")
+            tfile.write(f+":\n"+output+"\n\n\n")
+            tfile.close()
     bdelete.grid(row = x, column = 2, padx=5, pady=5)
     
     
