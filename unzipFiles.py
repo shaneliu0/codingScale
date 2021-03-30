@@ -45,17 +45,15 @@ def unzip(file_path, theurl):
     print("files have been downloaded") #https://github.com/Whitetiger094/BetaAmazonShopping/archive/main.zip
 
 def runFiles(directory, inpu):
+    i = None
+    if inpu:
+        i = inpu[0]
     for folder in os.listdir(directory):
         for f in os.listdir(directory+"\\"+folder):
             if f.endswith(".py"):
-                pp = subprocess.Popen('python '+f, shell = True, capture_output=True, text=True, cwd = directory+"\\"+folder, stdin = subprocess.PIPE)#, stdout = PIPE)
-                x = pp.communicate(inpu[0])
-                """
-                p = subprocess.run('python '+f, shell = True, capture_output = True, text=True, cwd = directory)
+                p = subprocess.run('python '+f, input = i, shell = True, capture_output = True, text=True, cwd = directory+"\\"+folder)
                 return(p.stdout)
-                """
-        #import index
-    return pp.stdout
+            
 #rename files to student name
 def renameFiles(file_path, projDict):
     projects = projDict.get("projects")
